@@ -1,4 +1,4 @@
-# Test 2026-09-12 at 02:10:07
+# Test 2026-09-12 at 02:30:30
 
 name: compactCochiseHouse
 
@@ -13,6 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    - name: Position files in package
+    - name: Install Perl packages
+      run: |
+        sudo cpan install Data::Table::Text Data::Dump Svg::Simple
+
+    - name: Perl
       run: |
         perl floorPlan.pl
