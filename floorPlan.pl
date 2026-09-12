@@ -13,15 +13,15 @@ use Svg::Simple;
 use utf8;
 
 my %d = (stroke_width=>1, fill=>"none", stroke=>"darkblue");                                                            # Default options
-my %f = (font_family=>"Verdana", font_size=>"1", font_weight=>"bold", font_style=>"normal");                           # Font for text
+my %f = (font_family=>"Verdana", font_size=>"1", font_weight=>"bold", font_style=>"normal");                            # Font for text
 
 my $x = 0; my $w = 0; my $W = 48;
 my $y = 0; my $h = 0; my $H = 24;
 my $T = 1/2;                                                                                                            # Thickness of the walls
-my $C =   6;                                                                                                            # Convenient length
-my $G =  12;                                                                                                            # Great room / bedrooms
+my $C = 6;                                                                                                              # Convenient length
+my $G = 2*$C;                                                                                                           # Great room / bedrooms
 
-my $s = Svg::Simple::new(grid=>12);
+my $s = Svg::Simple::new(grid=>$C);
 
 $x = 0; $w = 0; $h = $G; $y = $H - $h; $d{stroke_width}=0.3; $d{height}=$h;
 
@@ -39,7 +39,8 @@ room($s, %d, x=> 0-$T,    y=>-$T, width=> $W+2*$T, height=>$H+2*$T, stroke_width
 bath($s, x=>$T,    y=>$T); toilet($s, x=>$T,    y=>$T + $C, 𝗱=>-90); basin($s, x=>$T,    y=>$T + 3/2*$C, 𝗱=>-90);       # Bathroom 2
 bath($s, x=>$W-$C, y=>$T); toilet($s, x=>$W-$C, y=>$T + $C, 𝗱=>-90); basin($s, x=>$W-$C, y=>$T + 3/2*$C, 𝗱=>-90);       # Bathroom 1
 
-counter($s, x=>3*$C, y=>$C);                                                                                           # Counter in kitchen
+counter($s, x=>3*$C, y=>$C);                                                                                            # Counter in kitchen
+fridge ($s, x=>6*$C, y=>$C);                                                                                            # Fridge in kitchen
 
 queenBed($s, x=>$C/2,      y=>$H-$C-2);                                                                                 # Queen bed
 queenBed($s, x=>$W-$C*3/2, y=>$H-$C-2);                                                                                 # Queen bed
@@ -51,9 +52,8 @@ doorLL($s, x=>2*$C,    y=>$H-$G);                                               
 doorRR($s, x=>$W-2*$C, y=>$H-$G);                                                                                       # Living to bed 1
 doorLR($s, x=>$W-2*$C, y=>$H-$G);                                                                                       # Kitchen to utility room
 
-doorRD($s, x=>3/2*$C,    y=>0);                                                                                       # Kitchen to utility room
-doorLD($s, x=>5/2*$C,  y=>0);                                                                                       # Kitchen to utility room
-
+doorRD($s, x=>3/2*$C,  y=>0);                                                                                           # Kitchen to utility room
+doorLD($s, x=>5/2*$C,  y=>0);                                                                                           # Kitchen to utility room
 
 $s->line(x1=>2*$C, y1=>$H-$G, x2=>$W-2*$C, y2=>$H-$G, stroke_width=>$T, fill=>"none", stroke=>"white");
 
@@ -218,3 +218,22 @@ sub doorLL($s, %p) {doorRD($s, %p, 𝗱=>90);}
 sub doorRR($s, %p) {doorRU($s, %p, 𝗱=>90);}
 sub doorRL($s, %p) {doorRU($s, %p, 𝗱=>270);}
 sub doorLR($s, %p) {doorRD($s, %p, 𝗱=>270);}
+
+sub fridge($s, %p)
+ {my $x = $p{x};
+  my $y = $p{y};
+
+  my $w = $p{width}  // 3.0;
+  my $d = $p{depth}  // 2.5;
+  my $𝗱 = $p{𝗱}      // 0;
+  my %d = (stroke_width=>0.1, fill=>"none", stroke=>"darkorange");
+
+  $s->g(transform=>"translate($x, $y),rotate($𝗱)", sub=>sub
+   {$s->rect(%d, x=>0, y=>0, width=>$w, height=>$d, rx=>0.1);                                                           # Fridge
+
+    $s->line(%d, x1=>$w/2, y1=>0, x2=>$w/2, y2=>$d);                                                                    # Doors
+
+    $s->line(%d, x1=>$w/2-0.15, y1=>0.2, x2=>$w/2-0.15, y2=>$d-0.2);                                                    # Left handle
+    $s->line(%d, x1=>$w/2+0.15, y1=>0.2, x2=>$w/2+0.15, y2=>$d-0.2);                                                    # Right handle
+   });
+ }
