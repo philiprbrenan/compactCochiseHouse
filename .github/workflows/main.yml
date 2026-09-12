@@ -1,4 +1,4 @@
-# Test 2026-09-12 at 02:08:28
+# Test 2026-09-12 at 02:10:07
 
 name: compactCochiseHouse
 
@@ -8,8 +8,7 @@ on:
       - '**/main.yml'
 
 jobs:
-  test
-    permissions: write-all
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
