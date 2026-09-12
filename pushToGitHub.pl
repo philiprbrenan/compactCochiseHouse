@@ -50,8 +50,7 @@ on:
       - '**/main.yml'
 
 jobs:
-  test
-    permissions: write-all
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout\@v6
