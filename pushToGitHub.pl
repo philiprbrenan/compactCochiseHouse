@@ -55,7 +55,11 @@ jobs:
     steps:
     - uses: actions/checkout\@v6
 
-    - name: Position files in package
+    - name: Install Perl packages
+      run: |
+        sudo cpan install Data::Table::Text Data::Dump Svg::Simple
+
+    - name: Perl
       run: |
         perl floorPlan.pl
 END
