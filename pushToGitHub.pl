@@ -11,12 +11,12 @@ use Data::Dump qw(dump);
 use Data::Table::Text qw(:all);
 use GitHub::Crud qw(:all);
 
-my $home        = q(/home/phil/personal/sierra vista/floorPlan/);                                                       # Local files
-my $repo        = q(compactCochiseHouse);                                                                               # Repo
-my $user        = q(philiprbrenan);                                                                                     # User
-my $shaFile     = fpe $home, q(sha);                                                                                    # Sh256 file sums for each known file to detect changes
-my $wf          = q(.github/workflows/main.yml);                                                                        # Work flow on Ubuntu - compile and test
-my @ext         = qw(pl svg);                                                                                           # Extensions of files to upload to github
+my $home    = q(/home/phil/personal/sierraVista/floorPlan/);                                                            # Local files
+my $repo    = q(compactCochiseHouse);                                                                                   # Repo
+my $user    = q(philiprbrenan);                                                                                         # User
+my $shaFile = fpe $home, q(sha);                                                                                        # Sh256 file sums for each known file to detect changes
+my $wf      = q(.github/workflows/main.yml);                                                                            # Work flow on Ubuntu - compile and test
+my @ext     = qw(pl svg);                                                                                               # Extensions of files to upload to github
 
 say STDERR timeStamp,  " push to github $repo";
 
